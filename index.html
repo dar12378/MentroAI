@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlayPilot</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="hero">
+      <div class="logo">🎮</div>
+      <h1>PlayPilot</h1>
+      <p>היועץ האישי שלך למשחקים</p>
+    </header>
+
+    <section class="card">
+      <h2>הפרופיל שלי</h2>
+      <input id="playerName" placeholder="שם שחקן" />
+      <select id="mainGame">
+        <option value="">בחר משחק</option>
+        <option value="brawl">Brawl Stars</option>
+        <option value="minecraft">Minecraft</option>
+        <option value="pokemon">Pokémon</option>
+        <option value="fortnite">Fortnite</option>
+        <option value="roblox">Roblox</option>
+      </select>
+
+      <select id="playStyle">
+        <option value="">סגנון משחק</option>
+        <option value="fight">אני אוהב להילחם</option>
+        <option value="build">אני אוהב לבנות</option>
+        <option value="smart">אני אוהב אסטרטגיה</option>
+        <option value="collect">אני אוהב לאסוף דברים</option>
+      </select>
+
+      <button id="saveProfileBtn">שמור פרופיל</button>
+    </section>
+
+    <section class="stats">
+      <div class="stat">🔥 רצף: <b id="streakBox">0</b></div>
+      <div class="stat">💎 יהלומים: <b id="gemsBox">0</b></div>
+    </section>
+
+    <section class="card">
+      <h2>מה עשית היום?</h2>
+      <div class="grid">
+        <button class="progress-btn" data-action="level">עליתי רמה</button>
+        <button class="progress-btn" data-action="win">ניצחתי</button>
+        <button class="progress-btn" data-action="stuck">נתקעתי</button>
+        <button class="progress-btn" data-action="item">השגתי משהו חדש</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>יועץ משחקים</h2>
+      <textarea id="questionInput" placeholder="לדוגמה: בברואל סטרס יש לי שלי וניטה, את מי לשפר?"></textarea>
+      <button id="adviceBtn">תן לי עצה</button>
+      <div id="answerBox" class="answer">כאן תופיע העצה שלך.</div>
+    </section>
+
+    <section class="card">
+      <h2>בעיה טכנית</h2>
+      <textarea id="techInput" placeholder="לדוגמה: המשחק קורס / השלט לא מתחבר / אין אינטרנט"></textarea>
+      <button id="techBtn">פתור בעיה</button>
+      <div id="techAnswer" class="answer">כאן יופיע פתרון.</div>
+    </section>
+
+    <section class="card">
+      <h2>טיפ יומי</h2>
+      <div id="dailyTip" class="answer"></div>
+    </section>
+
+    <section class="card">
+      <h2>חנות</h2>
+      <button id="buyGlowBtn">קנה שם זוהר - 30 💎</button>
+      <button id="buyAvatarBtn">קנה תמונת פרופיל - 50 💎</button>
+      <div id="shopMessage" class="answer"></div>
+    </section>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
