@@ -1,56 +1,99 @@
+const pages = document.querySelectorAll(".page");
+const navBtns = document.querySelectorAll(".nav-btn");
+
 const playerName = document.getElementById("playerName");
-const mainGame = document.getElementById("mainGame");
-const playStyle = document.getElementById("playStyle");
+const playerEmail = document.getElementById("playerEmail");
+const customStyle = document.getElementById("customStyle");
 const saveProfileBtn = document.getElementById("saveProfileBtn");
 
 const streakBox = document.getElementById("streakBox");
 const gemsBox = document.getElementById("gemsBox");
+const gamesCountBox = document.getElementById("gamesCountBox");
+const helloTitle = document.getElementById("helloTitle");
+const todayBox = document.getElementById("todayBox");
 const dailyTip = document.getElementById("dailyTip");
+const tipDetails = document.getElementById("tipDetails");
 
-const questionInput = document.getElementById("questionInput");
+const addGameSelect = document.getElementById("addGameSelect");
+const addGameBtn = document.getElementById("addGameBtn");
+const myGamesList = document.getElementById("myGamesList");
+
+const adviceGameSelect = document.getElementById("adviceGameSelect");
+const adviceInput = document.getElementById("adviceInput");
 const adviceBtn = document.getElementById("adviceBtn");
-const answerBox = document.getElementById("answerBox");
+const adviceOutput = document.getElementById("adviceOutput");
 
+const recommendBtn = document.getElementById("recommendBtn");
+const recommendOutput = document.getElementById("recommendOutput");
+
+const techPlatform = document.getElementById("techPlatform");
+const techGameSelect = document.getElementById("techGameSelect");
 const techInput = document.getElementById("techInput");
 const techBtn = document.getElementById("techBtn");
-const techAnswer = document.getElementById("techAnswer");
+const techOutput = document.getElementById("techOutput");
 
-const buyGlowBtn = document.getElementById("buyGlowBtn");
-const buyAvatarBtn = document.getElementById("buyAvatarBtn");
+const infoGameSelect = document.getElementById("infoGameSelect");
+const infoOutput = document.getElementById("infoOutput");
+
 const shopMessage = document.getElementById("shopMessage");
 
-let user = JSON.parse(localStorage.getItem("playpilot_user")) || {
+let user = JSON.parse(localStorage.getItem("mentro_user")) || {
   name: "",
-  game: "",
+  email: "",
+  platforms: [],
   style: "",
+  games: [],
+  likedGames: [],
+  progress: [],
   streak: 0,
   gems: 0,
   lastVisit: "",
-  glow: false,
-  avatar: false,
-  progress: []
+  purchases: []
 };
 
 function saveUser() {
-  localStorage.setItem("playpilot_user", JSON.stringify(user));
+  localStorage.setItem("mentro_user", JSON.stringify(user));
 }
 
-function loadUser() {
-  playerName.value = user.name || "";
-  mainGame.value = user.game || "";
-  playStyle.value = user.style || "";
-  updateStats();
+function normalize(text) {
+  return String(text || "").toLowerCase().trim();
+}
+
+function setPage(pageId) {
+  pages.forEach(page => page.classList.remove("active-page"));
+  navBtns.forEach(btn => btn.classList.remove("active"));
+
+  document.getElementById(pageId).classList.add("active-page");
+  document.querySelector(`[data-page="${pageId}"]`).classList.add("active");
+}
+
+navBtns.forEach(btn => {
+  btn.addEventListener("click", () => setPage(btn.dataset.page));
+});
+
+function fillGameSelects() {
+  [addGameSelect, adviceGameSelect, techGameSelect, infoGameSelect].forEach(select => {
+    select.innerHTML = '<option value="">בחר משחק</option>';
+    gamesInfo.forEach(game => {
+      const option = document.createElement("option");
+      option.value = game.id;
+      option.textContent = game.name;
+      select.appendChild(option);
+    });
+  });
+}
+
+function loadProfile() {
+  playerName.value = user.name;
+  playerEmail.value = user.email;
+  customStyle.value = user.style;
+
+  document.querySelectorAll(".platform-check").forEach(check => {
+    check.checked = user.platforms.includes(check.value);
+  });
+
   handleDailyLogin();
-  showDailyTip();
-}
-
-function updateStats() {
-  streakBox.textContent = user.streak;
-  gemsBox.textContent = user.gems;
-
-  if (user.glow && user.name) {
-    document.querySelector("h1").innerHTML = `<span class="glow-name">PlayPilot</span>`;
-  }
+  renderAll();
 }
 
 function handleDailyLogin() {
@@ -66,133 +109,273 @@ function handleDailyLogin() {
     }
 
     saveUser();
-    updateStats();
   }
 }
 
-function showDailyTip() {
-  const game = user.game || "minecraft";
-  const list = tips[game] || tips.minecraft;
-  const index = new Date().getDate() % list.length;
-  dailyTip.textContent = list[index];
+function renderAll() {
+  helloTitle.textContent = user.name ? `שלום ${user.name} 👋` : "שלום 👋";
+  streakBox.textContent = user.streak;
+  gemsBox.textContent = user.gems;
+  gamesCountBox.textContent = user.games.length;
+
+  renderToday();
+  renderDailyTip();
+  renderMyGames();
+}
+
+function renderToday() {
+  const lastGame = user.games[0];
+  const game = gamesInfo.find(g => g.id === lastGame);
+
+  if (!game) {
+    todayBox.innerHTML = "עוד לא הוספת משחקים. עבור ל־המשחקים שלי והוסף משחק ראשון.";
+    return;
+  }
+
+  todayBox.innerHTML = `
+    אתה משחק ב־<b>${game.name}</b><br>
+    הסגנון שלך: ${user.style || "לא הוגדר"}<br>
+    המלצה: ${game.tips[0]}
+  `;
+}
+
+function renderDailyTip() {
+  const gameId = user.games[0] || "brawl";
+  const game = gamesInfo.find(g => g.id === gameId) || gamesInfo[0];
+  const index = new Date().getDate() % game.tips.length;
+
+  dailyTip.textContent = game.tips[index];
+
+  dailyTip.onclick = () => {
+    const strategy = game.strategies[index % game.strategies.length];
+
+    tipDetails.innerHTML = `
+      <b>דוגמה לאסטרטגיה:</b><br>
+      ${strategy}
+    `;
+
+    tipDetails.classList.toggle("hidden");
+  };
 }
 
 saveProfileBtn.addEventListener("click", () => {
   user.name = playerName.value.trim();
-  user.game = mainGame.value;
-  user.style = playStyle.value;
+  user.email = playerEmail.value.trim();
+  user.style = customStyle.value.trim();
+  user.platforms = [...document.querySelectorAll(".platform-check:checked")].map(x => x.value);
+
   saveUser();
-  showDailyTip();
-  updateStats();
-  answerBox.textContent = "הפרופיל נשמר. עכשיו העצות יהיו מותאמות אליך.";
+  renderAll();
+  alert("הפרופיל נשמר");
 });
 
-document.querySelectorAll(".progress-btn").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const action = btn.dataset.action;
-    const today = new Date().toLocaleDateString("he-IL");
+addGameBtn.addEventListener("click", () => {
+  const id = addGameSelect.value;
+  if (!id) return;
 
-    user.progress.push({
-      game: user.game,
-      action,
-      date: today
-    });
-
-    user.gems += 2;
+  if (!user.games.includes(id)) {
+    user.games.push(id);
+    user.gems += 5;
     saveUser();
-    updateStats();
-
-    answerBox.innerHTML = `
-      שמרתי את ההתקדמות שלך ✅<br>
-      קיבלת 2 יהלומים 💎<br>
-      עצה: ${getProgressAdvice(action)}
-    `;
-  });
+    renderAll();
+  }
 });
 
-function getProgressAdvice(action) {
-  if (action === "level") return "עכשיו כדאי לבדוק אם נפתח לך שדרוג חדש.";
-  if (action === "win") return "נסה להבין מה עבד טוב בקרב הזה וחזור על זה.";
-  if (action === "stuck") return "נסה לשנות נשק, דמות או דרך משחק במקום להמשיך אותו דבר.";
-  if (action === "item") return "בדוק אם הפריט החדש מתאים לסגנון המשחק שלך.";
-  return "תמשיך לעקוב אחרי ההתקדמות.";
+function renderMyGames() {
+  myGamesList.innerHTML = "";
+
+  if (!user.games.length) {
+    myGamesList.innerHTML = `<div class="answer">עוד לא הוספת משחקים.</div>`;
+    return;
+  }
+
+  user.games.forEach(id => {
+    const game = gamesInfo.find(g => g.id === id);
+    if (!game) return;
+
+    const liked = user.likedGames.includes(id);
+
+    const div = document.createElement("div");
+    div.className = "game-card";
+    div.innerHTML = `
+      <div class="game-img">${game.icon}</div>
+      <h3>${game.name}</h3>
+      <p>${game.summary}</p>
+      <button class="heart ${liked ? "liked" : ""}" data-like="${id}">
+        ${liked ? "❤️ אהבתי" : "♡ שים לב"}
+      </button>
+      <button data-progress="${id}" data-action="played">שיחקתי היום</button>
+      <button data-progress="${id}" data-action="stuck">נתקעתי</button>
+      <a class="store-link" href="${game.store}" target="_blank">פתח חנות / אתר</a>
+    `;
+
+    myGamesList.appendChild(div);
+  });
+
+  document.querySelectorAll("[data-like]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.like;
+
+      if (user.likedGames.includes(id)) {
+        user.likedGames = user.likedGames.filter(x => x !== id);
+      } else {
+        user.likedGames.push(id);
+        user.gems += 2;
+      }
+
+      saveUser();
+      renderAll();
+    });
+  });
+
+  document.querySelectorAll("[data-progress]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      user.progress.push({
+        game: btn.dataset.progress,
+        action: btn.dataset.action,
+        date: new Date().toLocaleDateString("he-IL")
+      });
+
+      user.gems += 2;
+      saveUser();
+      renderAll();
+    });
+  });
 }
 
 adviceBtn.addEventListener("click", () => {
-  const q = questionInput.value.toLowerCase();
-  const game = user.game;
-  const style = user.style;
+  const game = gamesInfo.find(g => g.id === adviceGameSelect.value) ||
+               gamesInfo.find(g => g.id === user.games[0]);
 
-  if (!q) {
-    answerBox.textContent = "כתוב מה ההתלבטות שלך.";
+  const q = normalize(adviceInput.value);
+
+  if (!game) {
+    adviceOutput.textContent = "בחר משחק או הוסף משחק לפרופיל.";
     return;
   }
 
-  let answer = "הנה העצה שלי: ";
+  let answer = `<b>${game.name}</b><br>`;
 
-  if (game === "minecraft" || q.includes("מיינקראפט")) {
-    if (q.includes("פיקאקס") || q.includes("חרב")) {
-      answer += "אם אתה חוצב ובונה הרבה — פיקאקס קודם. אם אתה נלחם הרבה במובים — חרב קודם. אם אתה עושה גם וגם, תשפר פיקאקס ואז חרב.";
-    } else {
-      answer += "במיינקראפט תבחר ציוד לפי סגנון: בנייה וחציבה = כלים, קרבות = חרב ומגן.";
-    }
-  } else if (game === "brawl" || q.includes("ברואל")) {
-    answer += "ב־Brawl Stars אל תקנה דמות רק לפי נדירות. תבדוק אם היא מתאימה לסגנון שלך ולמודים שאתה משחק. אם אתה אוהב התקפה — דמות עם נזק ובריחה. אם אתה אוהב שליטה — דמות עם טווח או שליטה באזור.";
-  } else if (game === "pokemon" || q.includes("פוקימון")) {
-    answer += "בפוקימון תבחר מתקפות לפי הסטטים של הפוקימון. Physical לפוקימון עם Attack גבוה, Special לפוקימון עם Special Attack גבוה.";
-  } else {
-    answer += "בחר לפי הסגנון שלך. אם אתה אוהב להילחם — כוח ונזק. אם אתה אוהב לחשוב — שליטה ואסטרטגיה. אם אתה אוהב לאסוף — השקעה בדמויות/פריטים לטווח ארוך.";
+  if (q.includes("לקנות") || q.includes("שווה") || q.includes("דמות")) {
+    answer += "תבדוק אם זה מתאים לסגנון שלך לפני שאתה קונה. ";
   }
 
-  if (style === "fight") answer += "<br>לפי הסגנון שלך, כדאי לך לבחור דברים שנותנים כוח בקרבות.";
-  if (style === "build") answer += "<br>לפי הסגנון שלך, כדאי להשקיע בכלים ובדברים שעוזרים לבנייה.";
-  if (style === "smart") answer += "<br>לפי הסגנון שלך, כדאי לבחור דמויות או פריטים עם שליטה ואסטרטגיה.";
-  if (style === "collect") answer += "<br>לפי הסגנון שלך, כדאי להשקיע בדברים שנשארים לך לטווח ארוך.";
+  if (user.style) {
+    answer += `לפי הסגנון שלך — ${user.style} — כדאי לבחור דברים שמתאימים לזה ולא רק מה שנראה מגניב.<br>`;
+  }
 
-  answerBox.innerHTML = answer;
+  answer += `<br><b>טיפ:</b> ${game.tips[0]}<br>`;
+  answer += `<b>אסטרטגיה:</b> ${game.strategies[0]}`;
+
+  adviceOutput.innerHTML = answer;
+});
+
+recommendBtn.addEventListener("click", () => {
+  const liked = gamesInfo.filter(g => user.likedGames.includes(g.id));
+  const userWords = normalize(user.style).split(" ");
+
+  const scores = gamesInfo
+    .filter(g => !user.games.includes(g.id))
+    .map(game => {
+      let score = 0;
+
+      liked.forEach(likedGame => {
+        game.styles.forEach(style => {
+          if (likedGame.styles.includes(style)) score += 5;
+        });
+      });
+
+      userWords.forEach(word => {
+        game.styles.forEach(style => {
+          if (normalize(style).includes(word)) score += 4;
+        });
+      });
+
+      return { game, score };
+    })
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 6);
+
+  recommendOutput.innerHTML = "";
+
+  scores.forEach(({ game, score }) => {
+    const div = document.createElement("div");
+    div.className = "game-card";
+
+    div.innerHTML = `
+      <div class="game-img">${game.icon}</div>
+      <h3>${game.name}</h3>
+      <p>${game.summary}</p>
+      <p><b>למה זה מתאים לך?</b><br>
+      כי המשחק מתאים לסגנונות: ${game.styles.slice(0, 4).join(", ")}.</p>
+      <a class="store-link" href="${game.store}" target="_blank">קישור לחנות / אתר</a>
+    `;
+
+    recommendOutput.appendChild(div);
+  });
 });
 
 techBtn.addEventListener("click", () => {
-  const q = techInput.value.toLowerCase();
+  const text = normalize(techInput.value);
 
-  if (!q) {
-    techAnswer.textContent = "כתוב את הבעיה הטכנית.";
+  if (!text) {
+    techOutput.textContent = "כתוב את הבעיה.";
     return;
   }
 
-  const match = techProblems.find((p) =>
-    p.keywords.some((k) => q.includes(k))
+  const match = techProblems.find(problem =>
+    problem.keywords.some(k => text.includes(normalize(k)))
   );
 
-  techAnswer.textContent = match
+  techOutput.textContent = match
     ? match.answer
-    : "נסה לעדכן את המשחק, להפעיל מחדש את המכשיר, לבדוק אינטרנט, לפנות מקום אחסון ולחפש קוד שגיאה מדויק.";
+    : "נסה להפעיל מחדש, לעדכן משחק, לבדוק אינטרנט, לפנות מקום אחסון ולבדוק אם יש קוד שגיאה.";
 });
 
-buyGlowBtn.addEventListener("click", () => {
-  if (user.gems < 30) {
-    shopMessage.textContent = "אין מספיק יהלומים.";
+infoGameSelect.addEventListener("change", () => {
+  const game = gamesInfo.find(g => g.id === infoGameSelect.value);
+
+  if (!game) {
+    infoOutput.textContent = "בחר משחק.";
     return;
   }
 
-  user.gems -= 30;
-  user.glow = true;
-  saveUser();
-  updateStats();
-  shopMessage.textContent = "קנית שם זוהר!";
+  infoOutput.innerHTML = `
+    <b>${game.name}</b><br>
+    סוג: ${game.genre}<br>
+    פלטפורמות: ${game.platforms.join(", ")}<br><br>
+    ${game.summary}<br><br>
+    <b>טיפים:</b><br>
+    ${game.tips.map(t => "• " + t).join("<br>")}<br><br>
+    <b>אסטרטגיות:</b><br>
+    ${game.strategies.map(s => "• " + s).join("<br>")}<br><br>
+    <a class="store-link" href="${game.store}" target="_blank">קישור לחנות / אתר</a>
+  `;
 });
 
-buyAvatarBtn.addEventListener("click", () => {
-  if (user.gems < 50) {
-    shopMessage.textContent = "אין מספיק יהלומים.";
-    return;
-  }
+document.querySelectorAll("[data-buy]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const item = btn.dataset.buy;
+    const prices = { glow: 30, wizard: 50, robot: 50, fire: 40 };
+    const price = prices[item];
 
-  user.gems -= 50;
-  user.avatar = true;
-  saveUser();
-  updateStats();
-  shopMessage.textContent = "קנית תמונת פרופיל מיוחדת!";
+    if (user.gems < price) {
+      shopMessage.textContent = "אין לך מספיק יהלומים.";
+      return;
+    }
+
+    if (user.purchases.includes(item)) {
+      shopMessage.textContent = "כבר קנית את זה.";
+      return;
+    }
+
+    user.gems -= price;
+    user.purchases.push(item);
+    saveUser();
+    renderAll();
+    shopMessage.textContent = "נקנה בהצלחה!";
+  });
 });
 
-loadUser();
+fillGameSelects();
+loadProfile();
