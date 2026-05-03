@@ -4,303 +4,263 @@
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
   background:
-    radial-gradient(circle at 15% 10%, rgba(56,189,248,0.25), transparent 28%),
-    radial-gradient(circle at 85% 20%, rgba(168,85,247,0.25), transparent 30%),
-    radial-gradient(circle at 50% 90%, rgba(34,197,94,0.12), transparent 25%),
-    linear-gradient(135deg, #020617, #0f172a 45%, #111827);
+    radial-gradient(circle at 10% 10%, #22c55e55, transparent 25%),
+    radial-gradient(circle at 90% 20%, #3b82f655, transparent 25%),
+    radial-gradient(circle at 50% 90%, #facc1555, transparent 25%),
+    linear-gradient(135deg, #020617, #0f172a);
   color: white;
 }
 
-.app {
+/* Layout */
+
+.app-shell {
   display: grid;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 250px 1fr;
   min-height: 100vh;
 }
 
-.sidebar {
-  background: rgba(15, 23, 42, 0.95);
-  border-left: 1px solid rgba(255,255,255,0.08);
-  padding: 18px;
-  position: sticky;
-  top: 0;
-  height: 100vh;
+/* Sidebar */
+
+.side-menu {
+  background: #020617;
+  padding: 20px;
+  border-left: 1px solid #1f2937;
 }
 
-.brand {
+.logo-box {
   text-align: center;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
-.brand-icon {
-  font-size: 44px;
-}
-
-.brand h1 {
-  margin: 6px 0;
-  font-size: 30px;
-}
-
-.brand p {
-  color: #94a3b8;
-  font-size: 14px;
+.logo-bubble {
+  font-size: 50px;
 }
 
 .nav-btn {
   width: 100%;
-  display: block;
-  margin-bottom: 10px;
-  padding: 13px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 12px;
   border: none;
-  border-radius: 14px;
   background: #111827;
   color: white;
   text-align: right;
-  font-weight: bold;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .nav-btn.active,
 .nav-btn:hover {
-  background: linear-gradient(135deg, #38bdf8, #818cf8);
-  color: #020617;
+  background: linear-gradient(135deg, #22c55e, #4ade80);
+  color: #022c22;
 }
 
-.content {
-  padding: 24px;
-  max-width: 1100px;
+/* Main */
+
+.main {
+  padding: 20px;
 }
 
-.topbar {
-  display: grid;
-  grid-template-columns: 140px 1fr 90px;
-  gap: 12px;
-  margin-bottom: 20px;
-  background: rgba(15, 23, 42, 0.75);
-  border: 1px solid rgba(255,255,255,0.08);
-  padding: 12px;
+/* Top */
+
+.top-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #111827;
+  padding: 16px;
   border-radius: 20px;
-  backdrop-filter: blur(10px);
+  margin-bottom: 20px;
 }
 
-.profile-shortcut,
-.quick-btn-top {
-  margin-top: 0;
-  height: 46px;
+.top-stats {
+  display: flex;
+  gap: 15px;
+  font-size: 18px;
 }
 
-.quick-ask {
-  margin-top: 0;
-  height: 46px;
+/* Hero */
+
+.hero-card {
+  background: linear-gradient(135deg, #22c55e, #4ade80);
+  color: #022c22;
+  padding: 20px;
+  border-radius: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.page {
-  display: none;
+.hero-icon {
+  font-size: 60px;
 }
 
-.active-page {
-  display: block;
+/* Duo grid */
+
+.duo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
 }
 
-h2 {
-  font-size: 30px;
-  margin-top: 0;
+.lesson-card {
+  padding: 15px;
+  border-radius: 20px;
 }
 
-.card {
-  background: rgba(15, 23, 42, 0.88);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 22px;
-  padding: 18px;
-  margin-bottom: 18px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+.lesson-card.green {
+  background: #22c55e;
+  color: #022c22;
 }
 
-label {
-  display: block;
-  margin-top: 12px;
-  margin-bottom: 6px;
-  color: #cbd5e1;
+.lesson-card.blue {
+  background: #3b82f6;
+}
+
+/* Buttons */
+
+button {
+  border: none;
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
   font-weight: bold;
+  margin-top: 10px;
 }
+
+.main-action {
+  background: #022c22;
+  color: white;
+}
+
+/* Inputs */
 
 input,
 select,
 textarea {
   width: 100%;
-  background: #020617;
+  padding: 10px;
+  border-radius: 12px;
   border: 1px solid #334155;
+  background: #020617;
   color: white;
-  padding: 13px;
-  border-radius: 14px;
-  font-size: 15px;
+  margin-top: 6px;
 }
 
-textarea {
-  min-height: 110px;
-}
+/* Card */
 
-button {
-  width: 100%;
-  margin-top: 12px;
-  border: none;
-  border-radius: 14px;
-  padding: 13px;
-  font-weight: bold;
-  cursor: pointer;
-  background: #38bdf8;
-  color: #020617;
-}
-
-button:hover {
-  opacity: 0.9;
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  margin-bottom: 18px;
-}
-
-.stat {
-  background: linear-gradient(135deg, #111827, #1e293b);
-  border: 1px solid rgba(255,255,255,0.08);
-  padding: 18px;
+.card {
+  background: #111827;
+  padding: 16px;
   border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+/* Game grid */
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.game-card {
+  background: #020617;
+  padding: 12px;
+  border-radius: 18px;
+}
+
+.game-img {
+  height: 100px;
+  background: linear-gradient(135deg, #3b82f6, #9333ea);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+}
+
+/* Missions */
+
+.mission-path {
+  display: grid;
+  gap: 10px;
+}
+
+.mission {
+  background: linear-gradient(135deg, #facc15, #fde047);
+  color: #422006;
+  padding: 14px;
+  border-radius: 16px;
+  font-weight: bold;
+}
+
+/* Shop */
+
+.shop-hero {
+  background: #111827;
+  padding: 15px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.shop-item {
+  padding: 14px;
+  border-radius: 18px;
   text-align: center;
 }
 
-.stat b {
-  font-size: 28px;
+.shop-img {
+  font-size: 50px;
+  margin-bottom: 10px;
 }
 
-.answer {
+.shop-item.legendary {
+  background: linear-gradient(135deg, gold, orange);
+}
+
+.shop-item.epic {
+  background: linear-gradient(135deg, purple, violet);
+}
+
+.shop-item.rare {
+  background: linear-gradient(135deg, #3b82f6, #60a5fa);
+}
+
+.shop-item.common {
+  background: linear-gradient(135deg, #334155, #64748b);
+}
+
+/* Answer */
+
+.big-answer {
   background: #020617;
-  border: 1px solid #1e293b;
-  padding: 14px;
+  padding: 15px;
   border-radius: 16px;
-  line-height: 1.7;
-  margin-top: 12px;
-  color: #e5e7eb;
+  margin-top: 10px;
 }
 
 .hidden {
   display: none;
 }
 
-.clickable {
-  cursor: pointer;
-}
-
-.clickable:hover {
-  background: #111827;
-}
-
-.checkbox-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.checkbox-grid label {
-  background: #020617;
-  padding: 10px;
-  border-radius: 12px;
-}
-
-.game-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 14px;
-}
-
-.game-card,
-.shop-item {
-  background: #111827;
-  border: 1px solid #1f2937;
-  border-radius: 20px;
-  padding: 15px;
-}
-
-.game-img {
-  width: 100%;
-  height: 120px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #2563eb, #9333ea);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 46px;
-  margin-bottom: 10px;
-}
-
-.game-card h3 {
-  margin: 6px 0;
-}
-
-.heart {
-  background: #1f2937;
-  color: white;
-}
-
-.heart.liked {
-  background: #ef4444;
-  color: white;
-}
-
-.store-link {
-  display: block;
-  margin-top: 8px;
-  color: #7dd3fc;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.shop-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 14px;
-}
-
-.shop-preview,
-.avatar-preview {
-  height: 110px;
-  border-radius: 18px;
-  background: linear-gradient(135deg, #0f172a, #334155);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 42px;
-}
-
-.glow-preview {
-  color: #facc15;
-  font-size: 34px;
-  text-shadow: 0 0 12px #facc15;
-}
-
-.glow-name {
-  color: #facc15;
-  text-shadow: 0 0 10px #facc15;
-}
+/* Mobile */
 
 @media (max-width: 850px) {
-  .app {
+  .app-shell {
     grid-template-columns: 1fr;
   }
 
-  .sidebar {
-    height: auto;
-    position: relative;
-  }
-
-  .stats {
-    grid-template-columns: 1fr;
-  }
-
-  .topbar {
+  .duo-grid {
     grid-template-columns: 1fr;
   }
 }
