@@ -1,6 +1,10 @@
 const pages = document.querySelectorAll(".page");
 const navBtns = document.querySelectorAll(".nav-btn");
 
+const profileShortcut = document.getElementById("profileShortcut");
+const quickAskInput = document.getElementById("quickAskInput");
+const quickAskBtn = document.getElementById("quickAskBtn");
+
 const playerName = document.getElementById("playerName");
 const playerEmail = document.getElementById("playerEmail");
 const customStyle = document.getElementById("customStyle");
@@ -69,6 +73,23 @@ function setPage(pageId) {
 
 navBtns.forEach(btn => {
   btn.addEventListener("click", () => setPage(btn.dataset.page));
+});
+
+profileShortcut.addEventListener("click", () => {
+  setPage("profile");
+});
+
+quickAskBtn.addEventListener("click", () => {
+  const text = quickAskInput.value.trim();
+  if (!text) return;
+
+  setPage("advice");
+  adviceInput.value = text;
+  adviceBtn.click();
+});
+
+quickAskInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") quickAskBtn.click();
 });
 
 function fillGameSelects() {
@@ -298,7 +319,7 @@ recommendBtn.addEventListener("click", () => {
 
   recommendOutput.innerHTML = "";
 
-  scores.forEach(({ game, score }) => {
+  scores.forEach(({ game }) => {
     const div = document.createElement("div");
     div.className = "game-card";
 
