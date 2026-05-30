@@ -3,197 +3,223 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mentro</title>
+  <title>QuestKid</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<div class="app">
 
-  <aside class="sidebar">
-    <div class="brand">
-      <div class="logo">🎮</div>
-      <h1>Mentro</h1>
-      <p>המאמן האישי שלך לגיימינג</p>
-    </div>
+  <div class="app">
 
-    <button class="nav active" data-page="home">🏠 בית</button>
-    <button class="nav" data-page="profile">👤 פרופיל</button>
-    <button class="nav" data-page="myGames">⭐ המשחקים שלי</button>
-    <button class="nav" data-page="nintendo">🔴 Nintendo</button>
-    <button class="nav" data-page="playstation">🔵 PlayStation</button>
-    <button class="nav" data-page="xbox">🟢 Xbox</button>
-    <button class="nav" data-page="pc">💻 PC</button>
-    <button class="nav" data-page="mobile">📱 Mobile</button>
-    <button class="nav" data-page="advice">💡 ייעוץ</button>
-    <button class="nav" data-page="tech">🔧 עזרה טכנית</button>
-    <button class="nav" data-page="shop">🛒 חנות</button>
-  </aside>
-
-  <main class="main">
-
-    <section id="home" class="page active-page">
-      <div class="hero">
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-icon">🦉</div>
         <div>
-          <h2 id="helloTitle">שלום 👋</h2>
-          <p>בחר משחק, קבל עצות, השלם משימות והרווח יהלומים.</p>
-        </div>
-        <div class="hero-icon">🏆</div>
-      </div>
-
-      <div class="stats">
-        <div class="stat">🔥 רצף<br><b id="streakBox">0</b></div>
-        <div class="stat">💎 יהלומים<br><b id="gemsBox">0</b></div>
-        <div class="stat">🎮 משחקים<br><b id="gamesCountBox">0</b></div>
-      </div>
-
-      <div class="card">
-        <h3>היום שלך</h3>
-        <div id="todayBox" class="answer">הוסף משחק כדי להתחיל.</div>
-      </div>
-
-      <div class="card">
-        <h3>טיפ יומי</h3>
-        <div id="dailyTip" class="answer clickable">בחר משחק כדי לקבל טיפ.</div>
-        <div id="tipDetails" class="answer hidden"></div>
-      </div>
-    </section>
-
-    <section id="profile" class="page">
-      <h2>פרופיל</h2>
-      <div class="card">
-        <label>שם</label>
-        <input id="playerName" placeholder="השם שלך" />
-
-        <label>אימייל</label>
-        <input id="playerEmail" type="email" placeholder="name@email.com" />
-
-        <label>סגנון משחק אישי</label>
-        <input id="playerStyle" placeholder="למשל: אוהב קרבות, בנייה, דמויות, אסטרטגיה..." />
-
-        <button id="saveProfileBtn">שמור פרופיל</button>
-      </div>
-    </section>
-
-    <section id="myGames" class="page">
-      <h2>המשחקים שלי</h2>
-
-      <div class="card">
-        <label>הוסף משחק מהרשימה</label>
-        <select id="gameSelect"></select>
-        <button id="addGameBtn">הוסף</button>
-
-        <label>או כתוב משחק משלך</label>
-        <input id="customGameInput" placeholder="שם משחק שלא נמצא ברשימה" />
-        <input id="customGameStyle" placeholder="סגנון המשחק" />
-        <button id="addCustomGameBtn">הוסף משחק אישי</button>
-      </div>
-
-      <div id="myGamesGrid" class="games-grid"></div>
-    </section>
-
-    <section id="nintendo" class="page console-page">
-      <h2>משחקי Nintendo</h2>
-      <div id="nintendoGrid" class="games-grid"></div>
-    </section>
-
-    <section id="playstation" class="page console-page">
-      <h2>משחקי PlayStation</h2>
-      <div id="playstationGrid" class="games-grid"></div>
-    </section>
-
-    <section id="xbox" class="page console-page">
-      <h2>משחקי Xbox</h2>
-      <div id="xboxGrid" class="games-grid"></div>
-    </section>
-
-    <section id="pc" class="page console-page">
-      <h2>משחקי PC</h2>
-      <div id="pcGrid" class="games-grid"></div>
-    </section>
-
-    <section id="mobile" class="page console-page">
-      <h2>משחקי Mobile</h2>
-      <div id="mobileGrid" class="games-grid"></div>
-    </section>
-
-    <section id="advice" class="page">
-      <h2>ייעוץ משחקים</h2>
-      <div class="card">
-        <label>בחר משחק</label>
-        <select id="adviceGameSelect"></select>
-
-        <label>כתוב שאלה</label>
-        <textarea id="adviceInput" placeholder="לדוגמה: בבrawl stars מי כדאי לשפר? במיינקראפט חרב או פיקאקס?"></textarea>
-
-        <button id="adviceBtn">קבל עצה</button>
-        <div id="adviceOutput" class="answer"></div>
-      </div>
-    </section>
-
-    <section id="tech" class="page">
-      <h2>עזרה טכנית</h2>
-      <div class="card">
-        <label>מכשיר</label>
-        <select id="techPlatform">
-          <option value="">בחר</option>
-          <option value="nintendo">Nintendo</option>
-          <option value="playstation">PlayStation</option>
-          <option value="xbox">Xbox</option>
-          <option value="pc">PC</option>
-          <option value="mobile">Mobile</option>
-        </select>
-
-        <label>מה הבעיה?</label>
-        <textarea id="techInput" placeholder="המשחק קורס / אין אינטרנט / DLC לא עובד / שלט לא מתחבר"></textarea>
-
-        <button id="techBtn">פתור</button>
-        <div id="techOutput" class="answer"></div>
-      </div>
-    </section>
-
-    <section id="shop" class="page">
-      <h2>חנות</h2>
-      <div class="shop-head">
-        <h3>💎 היהלומים שלך: <span id="shopGems">0</span></h3>
-      </div>
-
-      <div class="shop-grid">
-        <div class="shop-item legendary">
-          <div class="shop-img">👑</div>
-          <h3>כתר אגדי</h3>
-          <p>80 💎</p>
-          <button data-buy="crown">קנה</button>
-        </div>
-
-        <div class="shop-item epic">
-          <div class="shop-img">🔥</div>
-          <h3>שם בוער</h3>
-          <p>60 💎</p>
-          <button data-buy="fire">קנה</button>
-        </div>
-
-        <div class="shop-item rare">
-          <div class="shop-img">🤖</div>
-          <h3>אווטאר רובוט</h3>
-          <p>50 💎</p>
-          <button data-buy="robot">קנה</button>
-        </div>
-
-        <div class="shop-item rare">
-          <div class="shop-img">🧙‍♂️</div>
-          <h3>אווטאר קוסם</h3>
-          <p>50 💎</p>
-          <button data-buy="wizard">קנה</button>
+          <h1>QuestKid</h1>
+          <p>משימות. למידה. פרסים.</p>
         </div>
       </div>
 
-      <div id="shopMessage" class="answer"></div>
-    </section>
+      <nav class="nav">
+        <button class="active" data-page="home">🏠 בית</button>
+        <button data-page="tasks">✅ משימות</button>
+        <button data-page="learn">🧠 למידה</button>
+        <button data-page="shop">🛒 חנות</button>
+        <button data-page="profile">👤 פרופיל</button>
+        <button data-page="settings">⚙️ הגדרות</button>
+      </nav>
 
-  </main>
-</div>
+      <div class="sidebar-footer">
+        <div class="small-label">התקדמות לרמה הבאה</div>
+        <strong id="levelText">רמה 1</strong>
+        <div class="level-line">
+          <span id="levelProgress"></span>
+        </div>
+      </div>
+    </aside>
 
-<script src="data.js"></script>
-<script src="script.js"></script>
+    <main class="main">
+
+      <section class="topbar">
+        <div class="hero">
+          <h2 id="welcomeTitle">שלום 👋</h2>
+          <p>השלם משימות, ענה על שאלות, אסוף מטבעות ופתח פרסים חדשים.</p>
+        </div>
+
+        <div class="profile-card">
+          <div class="avatar" id="avatarBox">🦊</div>
+          <div>
+            <h3 id="childNameBox">נועם</h3>
+            <div class="stats">
+              <span class="pill green">⭐ <span id="xpBox">0</span> XP</span>
+              <span class="pill gold">🪙 <span id="coinsBox">0</span></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="home" class="page active">
+        <div class="grid">
+          <div class="card">
+            <h3>משימות היום</h3>
+            <div class="big-number" id="todayTasksNumber">0</div>
+            <p>כל משימה נותנת מטבעות ו־XP.</p>
+          </div>
+
+          <div class="card">
+            <h3>הרמה שלך</h3>
+            <div class="big-number" id="homeLevelNumber">1</div>
+            <p>כל 100 XP מעלים אותך רמה.</p>
+          </div>
+
+          <div class="card">
+            <h3>פרסים שנפתחו</h3>
+            <div class="big-number" id="inventoryNumber">0</div>
+            <p>קנה פריטים בחנות בעזרת המטבעות שאספת.</p>
+          </div>
+        </div>
+
+        <h2 class="section-title">המסלול היומי</h2>
+        <div class="daily-path" id="dailyPath"></div>
+      </section>
+
+      <section id="tasks" class="page">
+        <h2 class="section-title">✅ משימות</h2>
+
+        <div class="input-row">
+          <input id="newTaskInput" placeholder="כתוב משימה חדשה, למשל: לקרוא 10 דקות" />
+
+          <select id="taskRewardSelect">
+            <option value="10">פרס קטן - 10 מטבעות</option>
+            <option value="20">פרס בינוני - 20 מטבעות</option>
+            <option value="35">פרס גדול - 35 מטבעות</option>
+          </select>
+
+          <button class="btn blue" onclick="addTask()">הוסף משימה</button>
+        </div>
+
+        <div class="tasks-list" id="tasksList"></div>
+      </section>
+
+      <section id="learn" class="page">
+        <h2 class="section-title">🧠 למידה</h2>
+
+        <div class="quiz-box">
+          <div class="small-label">שאלה יומית</div>
+          <div class="question" id="questionText"></div>
+          <div class="answers" id="answersBox"></div>
+          <div class="message" id="quizMessage"></div>
+
+          <button class="btn secondary lesson-btn" onclick="nextQuestion()">שאלה חדשה</button>
+        </div>
+
+        <h2 class="section-title">שיעורים קצרים</h2>
+
+        <div class="learning-list">
+          <div class="lesson">
+            <div class="emoji-box">🇬🇧</div>
+            <div>
+              <div class="lesson-title">אנגלית בסיסית</div>
+              <div class="lesson-sub">תרגול מילים קצר לילדים.</div>
+            </div>
+            <button class="btn" onclick="quickLesson('אנגלית', 15, 15)">השלם</button>
+          </div>
+
+          <div class="lesson">
+            <div class="emoji-box">➕</div>
+            <div>
+              <div class="lesson-title">חשבון מהיר</div>
+              <div class="lesson-sub">חיבור וחיסור בצורה כיפית.</div>
+            </div>
+            <button class="btn" onclick="quickLesson('חשבון', 15, 15)">השלם</button>
+          </div>
+
+          <div class="lesson">
+            <div class="emoji-box">🌍</div>
+            <div>
+              <div class="lesson-title">ידע כללי</div>
+              <div class="lesson-sub">שאלות קצרות על העולם.</div>
+            </div>
+            <button class="btn" onclick="quickLesson('ידע כללי', 15, 15)">השלם</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="shop" class="page">
+        <h2 class="section-title">🛒 חנות פרסים</h2>
+        <div class="shop-list" id="shopList"></div>
+      </section>
+
+      <section id="profile" class="page">
+        <h2 class="section-title">👤 הפרופיל שלי</h2>
+
+        <div class="grid">
+          <div class="card">
+            <h3>שם</h3>
+            <div class="big-number small-big" id="profileName">נועם</div>
+            <p>אפשר לשנות שם במסך ההגדרות.</p>
+          </div>
+
+          <div class="card">
+            <h3>XP</h3>
+            <div class="big-number" id="profileXp">0</div>
+            <p>XP מתקבל ממשימות, שאלות ושיעורים.</p>
+          </div>
+
+          <div class="card">
+            <h3>מטבעות</h3>
+            <div class="big-number" id="profileCoins">0</div>
+            <p>עם מטבעות קונים פרסים בחנות.</p>
+          </div>
+        </div>
+
+        <h2 class="section-title">האוסף שלי</h2>
+        <div class="inventory" id="inventoryBox"></div>
+      </section>
+
+      <section id="settings" class="page">
+        <h2 class="section-title">⚙️ הגדרות</h2>
+
+        <div class="settings-box">
+
+          <div class="form-card">
+            <label>שם הילד</label>
+            <div class="row">
+              <input id="nameInput" placeholder="שם חדש" />
+              <button class="btn blue" onclick="saveName()">שמור</button>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <label>בחר דמות</label>
+            <div class="row">
+              <select id="avatarSelect">
+                <option value="🦊">שועל</option>
+                <option value="🐼">פנדה</option>
+                <option value="🦁">אריה</option>
+                <option value="🐶">כלב</option>
+                <option value="🐱">חתול</option>
+                <option value="🦉">ינשוף</option>
+                <option value="🐲">דרקון</option>
+              </select>
+
+              <button class="btn blue" onclick="saveAvatar()">החלף</button>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <label>איפוס המשחק</label>
+            <p class="gray-text">פעולה זו מוחקת משימות, מטבעות, XP ופרסים מהדפדפן הזה.</p>
+            <button class="btn red" onclick="resetApp()">אפס הכל</button>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
 </body>
 </html>
